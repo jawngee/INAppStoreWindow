@@ -294,6 +294,9 @@ NS_INLINE CGGradientRef INCreateGradientWithColors(NSColor *startingColor, NSCol
         if (window.verticallyCenterTitle) {
             titleTextRect.origin.y = floor(NSMidY(drawingRect) - (NSHeight(titleTextRect) / 2.f) + 1);
         }
+        
+        titleTextRect.origin.y -= window.titleOffset.y;
+        titleTextRect.origin.x += window.titleOffset.x;
 		
         [window.title drawInRect:titleTextRect withAttributes:titleTextStyles];
     }
@@ -443,6 +446,7 @@ NS_INLINE CGGradientRef INCreateGradientWithColors(NSColor *startingColor, NSCol
 @synthesize inactiveTitleBarEndColor = _inactiveTitleBarEndColor;
 @synthesize inactiveBaselineSeparatorColor = _inactiveBaselineSeparatorColor;
 @synthesize showsDocumentProxyIcon = _showsDocumentProxyIcon;
+@synthesize titleOffset = _titleOffset;
 
 #pragma mark -
 #pragma mark Initialization
@@ -791,6 +795,7 @@ NS_INLINE CGGradientRef INCreateGradientWithColors(NSColor *startingColor, NSCol
 
 - (void)_doInitialWindowSetup
 {
+    _titleOffset=CGPointZero;
     _showsBaselineSeparator = YES;
     _centerTrafficLightButtons = YES;
     _titleBarHeight = [self _minimumTitlebarHeight];
@@ -906,6 +911,9 @@ NS_INLINE CGGradientRef INCreateGradientWithColors(NSColor *startingColor, NSCol
             docButtonIconFrame.origin.y = NSMaxY(titleBarFrame) - NSHeight(docButtonIconFrame);
         }
 
+        docButtonIconFrame.origin.y-=_titleOffset.y;
+        docButtonIconFrame.origin.x+=_titleOffset.x;
+        
         [docIconButton setFrame:docButtonIconFrame];
     }
 
