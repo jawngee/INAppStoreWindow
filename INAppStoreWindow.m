@@ -307,27 +307,30 @@ NS_INLINE CGGradientRef INCreateGradientWithColors(NSColor *startingColor, NSCol
     BOOL drawsAsMainWindow = ([window isMainWindow] && [[NSApplication sharedApplication] isActive]);
     
     NSShadow *titleTextShadow = drawsAsMainWindow ? window.titleTextShadow : window.inactiveTitleTextShadow;
-    if (titleTextShadow == nil) {
-        #if __has_feature(objc_arc)
-        titleTextShadow = [[NSShadow alloc] init];
-        #else
-        titleTextShadow = [[[NSShadow alloc] init] autorelease];
-        #endif
-        titleTextShadow.shadowBlurRadius = 0.0;
-        titleTextShadow.shadowOffset = NSMakeSize(0, -1);
-        titleTextShadow.shadowColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.5];
-    }
+//    if (titleTextShadow == nil) {
+//        #if __has_feature(objc_arc)
+//        titleTextShadow = [[NSShadow alloc] init];
+//        #else
+//        titleTextShadow = [[[NSShadow alloc] init] autorelease];
+//        #endif
+//        titleTextShadow.shadowBlurRadius = 0.0;
+//        titleTextShadow.shadowOffset = NSMakeSize(0, -1);
+//        titleTextShadow.shadowColor = [NSColor colorWithDeviceWhite:1.0 alpha:0.5];
+//    }
     
     NSColor *titleTextColor = drawsAsMainWindow ? window.titleTextColor : window.inactiveTitleTextColor;
     titleTextColor = titleTextColor ? titleTextColor : drawsAsMainWindow ? IN_COLOR_MAIN_TITLE_TEXT : IN_COLOR_NOTMAIN_TITLE_TEXT;
 	
     NSFont *titleFont = window.titleFont ?: [NSFont titleBarFontOfSize:[NSFont systemFontSizeForControlSize:NSRegularControlSize]];
 	
-    NSDictionary *titleTextStyles = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSMutableDictionary *titleTextStyles = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                      titleFont, NSFontAttributeName,
                                      titleTextColor, NSForegroundColorAttributeName,
-                                     titleTextShadow, NSShadowAttributeName,
                                      nil];
+
+    if (titleTextShadow)
+        [titleTextStyles setObject:titleTextShadow forKey:NSShadowAttributeName];
+    
     NSSize titleSize = [window.title sizeWithAttributes:titleTextStyles];
     NSRect titleTextRect;
     titleTextRect.size = titleSize;
@@ -352,6 +355,7 @@ NS_INLINE CGGradientRef INCreateGradientWithColors(NSColor *startingColor, NSCol
         titleTextRect.origin.x = NSMidX(self.bounds) - titleSize.width/2;
     }
     titleTextRect.origin.y = NSMaxY(self.bounds) - titleSize.height - 2.0;
+
     
     if (frame) {
         *frame = titleTextRect;
