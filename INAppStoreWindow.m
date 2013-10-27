@@ -52,7 +52,7 @@
 #define IN_COLOR_NOTMAIN_BOTTOM_L [NSColor colorWithDeviceWhite:0.655 alpha:1.0]
 
 /** Corner clipping radius **/
-const CGFloat INCornerClipRadius = 4.0;
+const CGFloat INCornerClipRadius = 8.0;
 
 NS_INLINE CGFloat INMidHeight(NSRect aRect){
     return (aRect.size.height * (CGFloat)0.5);
