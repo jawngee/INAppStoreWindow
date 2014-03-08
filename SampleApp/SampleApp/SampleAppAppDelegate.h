@@ -3,7 +3,10 @@
 //  SampleApp
 //
 //  Created by Indragie Karunaratne on 11-02-23.
-//  Copyright 2011 Indragie Karunaratne. All rights reserved.
+//  Copyright 2011-2014 Indragie Karunaratne. All rights reserved.
+//
+//  Licensed under the BSD 2-clause License. See LICENSE file distributed in the source
+//  code of this project.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -22,6 +25,7 @@
 @property (assign) IBOutlet NSSlider *trafficLightSeparation;
 @property (assign) IBOutlet NSSlider *titleBarHeight;
 @property (assign) IBOutlet NSButton *showsBaselineSeparator;
+@property (assign) IBOutlet NSButton *texturedWindow;
 @property (nonatomic, retain) NSMutableArray *windowControllers;
 
 - (IBAction)createWindowController:(id)sender;
