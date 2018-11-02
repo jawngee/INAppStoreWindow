@@ -552,7 +552,23 @@ NS_INLINE CGGradientRef INCreateGradientWithColors(NSColor *startingColor, NSCol
 
 - (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSNotificationCenter *nc=[NSNotificationCenter defaultCenter];
+    
+    [nc removeObserver:self name:NSWindowDidResizeNotification object:nil];
+    [nc removeObserver:self name:NSWindowDidMoveNotification object:nil];
+    [nc removeObserver:self name:NSWindowDidEndSheetNotification object:nil];
+    [nc removeObserver:self name:NSApplicationDidBecomeActiveNotification object:nil];
+    [nc removeObserver:self name:NSApplicationDidResignActiveNotification object:nil];
+    
+	if (INRunningLion()) {
+        [nc removeObserver:self name:NSWindowDidExitFullScreenNotification object:nil];
+        [nc removeObserver:self name:NSWindowWillEnterFullScreenNotification object:nil];
+        [nc removeObserver:self name:NSWindowWillExitFullScreenNotification object:nil];
+	}
+    
+    self.titleBarDrawingBlock=nil;
+    
+    [super dealloc];
 }
 
 #pragma mark -
